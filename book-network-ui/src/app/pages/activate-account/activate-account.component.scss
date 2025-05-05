@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  }
+
+code-input {
+  --item-spacing: 10px;
+  --item-height: 3em;
+  --item-border: none;
+  --item-border-bottom: 2px solid #dddddd;
+  --item-border-bottom-focused: 2px solid #809070;
+  --item-border-radius: 5px;
+}
+
+.activate-message, .activate-error {
+  text-align: center;
+  }
+
+.activate-error {
+  color: red
+  }

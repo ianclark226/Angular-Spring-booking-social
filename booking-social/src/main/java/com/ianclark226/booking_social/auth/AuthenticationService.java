@@ -14,12 +14,14 @@ import lombok.RequiredArgsConstructor;
 
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -101,18 +103,29 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(@Valid AuthenticationRequest request) {
-        var auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        var claims = new HashMap<String, Object>();
-        var user = ((User)auth.getPrincipal());
-        claims.put("fullname", user.fullName());
-        var jwtToken = jwtService.generateToken(claims, user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken).build();
+        try {
+            var auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            var claims = new HashMap<String, Object>();
+            var user = ((User) auth.getPrincipal());
+            claims.put("fullname", user.fullName());
+            var jwtToken = jwtService.generateToken(claims, user);
+            return AuthenticationResponse.builder()
+                    .token(jwtToken).build();
+
+        } catch (DisabledException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User account is disabled");
+        } catch (AccountExpiredException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User account has expired");
+        } catch (BadCredentialsException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+        } catch (AuthenticationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication failed");
+        }
     }
 
 //    @Transactional

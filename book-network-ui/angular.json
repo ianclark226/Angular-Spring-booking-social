@@ -91,6 +91,7 @@
               }
             ],
             "styles": [
+              "node_modules/angular-code-input/styles.css",
               "src/styles.scss"
             ],
             "scripts": []
