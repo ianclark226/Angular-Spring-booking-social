@@ -10,7 +10,6 @@
           "style": "scss"
         }
       },
-
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -33,15 +32,9 @@
               }
             ],
             "styles": [
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
