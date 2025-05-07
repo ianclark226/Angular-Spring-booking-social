@@ -8,14 +8,18 @@ import org.springframework.stereotype.Service;
 public class BookMapper {
 
     public Book toBook(BookRequest request) {
-        return Book.builder()
-                .id(request.id())
+        Book.BookBuilder builder = Book.builder()
                 .title(request.title())
                 .authorName(request.authorName())
                 .synopsis(request.synopsis())
                 .archived(false)
-                .shareable(request.shareable())
-                .build();
+                .shareable(request.shareable());
+
+        if (request.id() != null) {
+            builder.id(request.id()); // only set if updating
+        }
+
+        return builder.build();
     }
 
     public BookResponse toBookResponse(Book book) {

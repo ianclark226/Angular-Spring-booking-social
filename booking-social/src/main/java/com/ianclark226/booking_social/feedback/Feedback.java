@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 public class Feedback extends BaseEntity {
 
     @Column
-    private Double note;
+    private Integer note;
     private String comment;
     @ManyToOne
     @JoinColumn(name = "book_id")

@@ -39,7 +39,7 @@ public class FileStorageService {
         File targetFolder = new File(finalUploadPath);
 
         if(!targetFolder.exists()) {
-            boolean folderCreated = targetFolder.mkdir();
+            boolean folderCreated = targetFolder.mkdirs();
             if(!folderCreated) {
                 log.warn("Failed to create the target folder");
                 return null;
