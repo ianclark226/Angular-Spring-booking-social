@@ -14,16 +14,16 @@ import {RatingComponent} from '../../components/rating/rating.component';
 })
 export class BookCardComponent {
 
-  private _book: BookResponse = {};
+  private _book: BookResponse | undefined;
   private _manage = false;
   private _bookCover: string | undefined;
 
-  get bookCover(): string | undefined {
-    if(this._book.cover) {
+  get bookCover(): string {
+    if (this._book && this._book.cover) {
       return 'data:image/jpg;base64, ' + this._book.cover;
-      }
-    return 'https://source.unsplash.com/user/c_v_r/1900x800';
     }
+    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcc23JSxwzVmR5dT6iZyojv7c2Hl0cbk3lyQ&s';
+  }
 
   @Output() private share: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private archive: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
@@ -33,6 +33,9 @@ export class BookCardComponent {
   @Output() private details: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
 
   get book(): BookResponse {
+    if (!this._book) {
+      throw new Error('Book not set');
+    }
     return this._book;
   }
 

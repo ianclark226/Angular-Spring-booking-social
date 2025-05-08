@@ -77,19 +77,21 @@ get isLastPage(): boolean {
   }
 
 borrowBook(book: BookResponse) {
-  this.message = '';
-  this.bookService.borrowBook({
-    'book-id': book.id as number
+    this.message = '';
+    this.level = 'success';
+    this.bookService.borrowBook({
+      'book-id': book.id as number
     }).subscribe({
       next: () => {
         this.level = 'success';
         this.message = 'Book successfully added to your list';
-        },
+      },
       error: (err) => {
+        console.log(err);
         this.level = 'error';
         this.message = err.error.error;
-        }
-      })
+      }
+    });
   }
   }
 

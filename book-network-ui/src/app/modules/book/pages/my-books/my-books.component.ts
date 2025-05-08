@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import {BookService} from '../../../../services/services/book.service';
 import {PageResponseBookResponse} from '../../../../services/models/page-response-book-response';
 import {BookResponse} from '../../../../services/models/book-response';
@@ -22,10 +22,10 @@ export class MyBooksComponent implements OnInit {
   pages: any = [];
 
   constructor(
-    private bookService: BookService,
-    private router: Router
-  ) {
-  }
+      private bookService: BookService,
+      private router: Router,
+      private route: ActivatedRoute // ✅ Added for relative navigation
+    ) {}
 
   ngOnInit(): void {
     this.findAllBooks();
@@ -96,6 +96,8 @@ export class MyBooksComponent implements OnInit {
   }
 
   editBook(book: BookResponse) {
-    this.router.navigate(['books', 'manage', book.id]);
-  }
+      this.router.navigate(['../manage', book.id], { relativeTo: this.route }); // ✅ Relative navigation
+    }
+
+
 }

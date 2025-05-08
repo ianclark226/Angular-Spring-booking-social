@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
-    standalone: true, // ✅ THIS IS REQUIRED
-    imports: [CommonModule],
+    standalone: true,
+    imports: [CommonModule, RouterModule],
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit{
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
       const linkColor = document.querySelectorAll('.nav-link');
@@ -23,7 +26,10 @@ export class MenuComponent implements OnInit{
         })
       }
 
-    logout() {
-      }
+
+logout() {
+  localStorage.removeItem('token');
+  this.router.navigate(['/login']);
+}
 
 }

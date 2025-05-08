@@ -9,11 +9,12 @@
   <app-book-card
     [book]="book"
     [manage]="true"
-    (archive)="archiveBook($Event)"
-    (share)="shareBook($Event)"
-    (edit)="editBook($Event)"
+    (archive)="archiveBook($event)"
+    (share)="shareBook($event)"
+    (edit)="editBook($event)"
     *ngFor="let book of bookResponse.content">{{book.title}}</app-book-card>
 </div>
+
 
 <div class="d-flex justify-content-center mt-3">
   <nav aria-label="Page navigation example"></nav>
